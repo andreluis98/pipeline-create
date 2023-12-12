@@ -18,3 +18,7 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 cp ./index.html s3://$BUCKET_S3 --acl public-read
+          echo "AWS CLI Version:"
+          aws --version
+          echo "List S3 Contents:"
+          aws s3 ls s3://$BUCKET_S3/
