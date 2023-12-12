@@ -10,6 +10,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: List Files in Directory
+        run: ls -R
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
