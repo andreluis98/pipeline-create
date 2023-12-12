@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Upload Artifact
-        uses: andreluis98/pipeline-create/.github/actions/hello/upload-artifact@v3
+        uses: andreluis98/pipeline-create/.github/actions/hello/upload-artifact@v1
         with:
           name: deploy
           path: index.html
