@@ -30,6 +30,11 @@ jobs:
       AWS_EC2_METADATA_DISABLED: true
       BUCKET_S3: ${{ secrets.BUCKET_S3 }}
     steps:
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
