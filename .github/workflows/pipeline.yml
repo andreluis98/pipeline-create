@@ -5,41 +5,16 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: List Files in Directory
-        run: ls -R
-
-      - name: Upload Artifact
-        if: success()
-        uses: actions/upload-artifact@v2
-        with:
-          name: deploy
-          path: .
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: deploy
-          path: .
-
-      - name: Display Artifact Contents
+      - name: Display Contents
         run: cat index.html
 
-      - name: Remove index.html
-        run: rm index.html
-
-      - name: Check if index.html exists
-        run: test -e index.html || echo "File not found"
-
-      - name: Upload to S3
-        if: success() && failure()
-        run: aws s3 cp ./index.html s3://$BUCKET_S3 --recursive --acl public-read
+      - name: Deploy to S3
+        run: |
+          aws s3 cp ./index.html s3://$BUCKET_S3 --acl public-read
