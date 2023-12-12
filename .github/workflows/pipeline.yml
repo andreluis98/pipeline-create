@@ -15,6 +15,7 @@ jobs:
         run: ls -R
 
       - name: Upload Artifact
+        if: success()  # Upload artifact only if previous steps were successful
         uses: actions/upload-artifact@v2
         with:
           name: deploy
@@ -30,5 +31,9 @@ jobs:
           name: deploy
           path: .  # Download all files in the artifact to the current directory
 
+      - name: Check if index.html exists
+        run: test -e index.html
+
       - name: Upload to S3
+        if: success()  # Upload to S3 only if the previous step was successful
         run: aws s3 cp ./index.html s3://$BUCKET_S3 --recursive --acl public-read
