@@ -15,11 +15,11 @@ jobs:
         run: ls -R
 
       - name: Upload Artifact
-        if: success()  # Upload artifact only if previous steps were successful
+        if: success()
         uses: actions/upload-artifact@v2
         with:
           name: deploy
-          path: .  # Upload all files in the current directory
+          path: . 
 
   deploy:
     runs-on: ubuntu-latest
@@ -29,11 +29,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: deploy
-          path: .  # Download all files in the artifact to the current directory
+          path: .
 
       - name: Check if index.html exists
         run: test -e index.html
 
+      - name: Display Artifact Contents
+        run: cat index.html
+
       - name: Upload to S3
-        if: success()  # Upload to S3 only if the previous step was successful
+        if: success() && failure() # Execute esta etapa mesmo se a etapa anterior falhar
         run: aws s3 cp ./index.html s3://$BUCKET_S3 --recursive --acl public-read
