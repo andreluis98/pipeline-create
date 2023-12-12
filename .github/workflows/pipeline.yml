@@ -15,7 +15,7 @@ jobs:
         run: ls -R
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: deploy
           path: ./index.html
@@ -36,7 +36,7 @@ jobs:
           node-version: '16'
 
       - name: Download Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: deploy
           path: ./index.html
