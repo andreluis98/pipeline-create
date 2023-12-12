@@ -19,7 +19,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: deploy
-          path: . 
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -31,12 +31,15 @@ jobs:
           name: deploy
           path: .
 
-      - name: Check if index.html exists
-        run: test -e index.html
-
       - name: Display Artifact Contents
         run: cat index.html
 
+      - name: Remove index.html
+        run: rm index.html
+
+      - name: Check if index.html exists
+        run: test -e index.html || echo "File not found"
+
       - name: Upload to S3
-        if: success() && failure() # Execute esta etapa mesmo se a etapa anterior falhar
+        if: success() && failure()
         run: aws s3 cp ./index.html s3://$BUCKET_S3 --recursive --acl public-read
